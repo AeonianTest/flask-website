@@ -1,0 +1,22 @@
+#Organising files to ignore in git
+
+#compilied python
+*.pyc
+*.pyo
+__pycache__/
+
+#enviroments
+env/
+venv/
+.env/
+
+#IDE
+.idea/
+.vscode/
+*.swp
+
+#logs
+*.log
+
+#env vars
+.env
