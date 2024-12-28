@@ -1,18 +1,30 @@
-from flask import Flask, render_template, request, redirect #Import the modules
+from flask import Flask, render_template, request, redirect, make_response, jsonify #Import the Flask modules
 from flask_mail import Mail, Message
-from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+from dotenv import load_dotenv #import misc modules
 
 import os
 
-app = Flask(__name__) #setting up the app. Also import from .env
-load_dotenv()
+
+
+app = Flask(__name__) #setting up the app
+
+limiter = Limiter( #Initialize the rate limiter object, use for form
+    get_remote_address,  #Get user ip
+    app=app, 
+    default_limits=["200 per minute"], #Global limits for general usage
+    storage_uri="memory://" #For a prod app might have to be changed.
+)
 
 #gmail smtp server setup with env vars
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+load_dotenv()
+app.config['MAIL_SERVER'] = 'smtp.gmail.com' #using gmail for smtp solution
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME") #Get the gmail account from .env
 app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_USERNAME")
 
@@ -31,6 +43,7 @@ def contact():
     return render_template("contact.html")
 
 @app.route("/send_email", methods=["POST"]) #WIP for rate limiting form validation captcha etc
+@limiter.limit('20 per hour')
 def send_email():
     #Get form data
     name = request.form.get("name")
@@ -48,6 +61,13 @@ def send_email():
         return redirect('/contact')
     except Exception as e: #Catch error
         return f"Failed to send email: {e}"
+    
+@app.errorhandler(429) #Handle rate limit response
+def ratelimit_handler(e):
+    return make_response(
+            jsonify(error=f"ratelimit exceeded {e.description}")
+            , 429
+    )
 
 if __name__ == '__main__': #If run as main python file, start the application
     app.run(debug=True)
