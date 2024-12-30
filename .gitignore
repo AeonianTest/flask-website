@@ -20,3 +20,6 @@ venv/
 
 #env vars
 .env
+
+#Mac
+*.DS_Store
