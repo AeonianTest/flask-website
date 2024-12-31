@@ -16,6 +16,10 @@
     {{ form.message(rows=4, cols=40) }}
     <br>
 
+    <label for="recaptcha">Verification:</label>
+    {{ form.recaptcha() }}
+    <br>
+
     <button type="submit">Send</button>
 </form>
 {% endblock %}
