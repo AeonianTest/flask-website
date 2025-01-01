@@ -73,9 +73,15 @@ form button {
     color: white;
     border: none;
     border-radius: 5px;
+    margin-top: 5px;
     cursor: pointer;
 }
 
 form button:hover {
     background-color: #45a049;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
 }

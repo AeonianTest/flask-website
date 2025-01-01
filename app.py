@@ -44,13 +44,13 @@ def home():
 def about():
     return render_template("about.html")
 
-@app.route("/contact", methods=["GET", "POST"]) #TODO: CAPTCHA SUPPORT
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
     form = MailForm() #Create MailForm object, which is using flask-wtf
 
     return render_template("contact.html", form=form) #Render the form
 
-@app.route("/send_email", methods=["POST"]) #Endpoint to send an email. TODO: Display error for email
+@app.route("/send_email", methods=["POST"]) #Endpoint to send an email. 
 @limiter.limit('20 per hour')
 def send_email():
     form = MailForm() #Instantiate the form to validate, given implictly from the request
