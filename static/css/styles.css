@@ -85,3 +85,22 @@ form button:hover {
     color: red;
     font-size: 0.9em;
 }
+
+/* flex container */
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.box {
+    flex: 1;
+
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    border: 2px solid #333;
+}

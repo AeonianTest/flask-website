@@ -5,6 +5,7 @@ from flask_limiter.util import get_remote_address
 from mailform import MailForm
 
 from dotenv import load_dotenv #import misc modules
+from datetime import datetime
 
 import os
 
@@ -35,6 +36,10 @@ app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME") #Get the gmail account 
 app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_USERNAME")
 mail = Mail(app) #Set up mail service
+
+@app.context_processor #Inject into template before rendering, using a dict to pass vars
+def inject_time():
+    return {"year": datetime.now().year}
 
 @app.route('/') #Render the pages
 def home():
