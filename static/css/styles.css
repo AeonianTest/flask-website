@@ -104,3 +104,22 @@ form button:hover {
     border-radius: 8px;
     border: 2px solid #333;
 }
+
+/* Flash message displayed */
+
+.flash-messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+.flash-messages li {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.flash-messages .success {
+    background-color: #d4edda;
+    color: #013e0f;
+    border: 1px solid #c3e6cb;
+}

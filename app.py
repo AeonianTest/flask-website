@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, make_response, jsonify, url_for #Import the Flask modules
+from flask import Flask, render_template, flash, redirect, make_response, jsonify, url_for #Import the Flask modules
 from flask_mail import Mail, Message
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -76,6 +76,7 @@ def send_email():
         )
 
         mail.send(msg) #Send the message
+        flash("Form submitted successfully!", "success") #Use flashing to record a message at the end of a req and access it in only the next req
         return redirect(url_for("contact"))
     except Exception as e: #Catch error
         return f"Failed to send email: {e}"
