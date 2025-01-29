@@ -14,6 +14,7 @@ import os
 app = Flask(__name__) #Setting up the app
 
 #Setting up Secret key for CSRF protection. Also the CAPTCHA keys
+load_dotenv()
 app.config['SECRET_KEY'] = os.getenv("CSRF_SECRET_KEY")
 app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv("RECAPTCHA_SITE_KEY")
 app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv("RECAPTCHA_SECRET_KEY")
